@@ -73,6 +73,74 @@ Linux 下如果希望常驻运行并方便管理，可以直接使用项目根�
 
 Android 同理。
 
+### 个人分支附加配置
+
+如果你直接使用别人的 CDN 资源，可能会遇到下面几类问题：
+
+- `99_0_115.zip` 需要从单独地址下发
+- 部分解压资源需要走和 `cdn_server` 不同的地址
+- 第三方 CDN 上的实际文件大小和数据库里的 `pkg_size` 不一致
+
+`personal` 分支里保留了几项用于处理这些情况的附加配置：
+
+```json
+{
+	"settings": {
+		"cdn_server": "http://127.0.0.1:8080/static",
+		"backup_cdn_server": "",
+		"override_server_config": {
+			"enable": false,
+			"android": {
+				"url": "",
+				"size": 0
+			},
+			"ios": {
+				"url": "",
+				"size": 0
+			}
+		},
+		"override_file_size": []
+	}
+}
+```
+
+字段说明：
+
+- `cdn_server`：更新包默认下载地址
+- `backup_cdn_server`：仅用于 `/download/getUrl` 下发解压资源地址；为空时回退到 `cdn_server`
+- `override_server_config`：固定只处理 `99_0_115.zip`
+- `override_file_size`：按文件名覆盖返回给客户端的 `size`
+
+`override_server_config` 的行为：
+
+- `enable = false` 时，仍然按默认逻辑从 `cdn_server/{系统}/archives/99_0_115.zip` 探测
+- 只有确认该文件可访问时，服务端才会把它加入下载列表
+- `enable = true` 且对应平台 `url` 非空时，会优先使用该地址，不再回退到 `cdn_server`
+- `size = 0` 时，服务端会自动请求该 URL 探测文件大小
+- `size > 0` 时，会直接使用配置值返回给客户端
+
+`override_file_size` 的配置项格式如下：
+
+```json
+{
+	"settings": {
+		"override_file_size": [
+			{
+				"target_os": "Android",
+				"file_name": "99_0_113.zip"
+			}
+		]
+	}
+}
+```
+
+字段说明：
+
+- `target_os`：可选，留空表示对所有平台生效
+- `file_name`：要覆盖大小的包名
+
+命中后，服务端会按该文件最终下发的 URL 自动探测真实大小，并覆盖响应里的 `size`，不会修改数据库原始值。
+
 ### 托管方式
 
 如果要把下载服务放到云服务器，只需要把：

@@ -23,10 +23,15 @@ func getUrl(ctx *gin.Context) {
 		return
 	}
 
+	cdnServer := config.Conf.Settings.BackupCdnServer
+	if cdnServer == "" {
+		cdnServer = config.Conf.Settings.CdnServer
+	}
+
 	urlList := []string{}
 	for _, v := range downloadReq.PathList {
 		urlList = append(urlList, fmt.Sprintf("%s/%s/extracted/%s",
-			config.Conf.Settings.CdnServer, downloadReq.Os, strings.ReplaceAll(v, "\\", "")))
+			cdnServer, downloadReq.Os, strings.ReplaceAll(v, "\\", "")))
 	}
 
 	ss.Respond(downloadschema.UrlResp{

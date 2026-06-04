@@ -23,9 +23,28 @@ type AppConfigs struct {
 }
 
 type Settings struct {
-	ListenPort               string `json:"listen_port"`
-	CdnServer                string `json:"cdn_server"`
-	UnlockAllSpecialRotation bool   `json:"unlock_all_special_rotation"`
+	ListenPort               string               `json:"listen_port"`
+	CdnServer                string               `json:"cdn_server"`
+	BackupCdnServer          string               `json:"backup_cdn_server"`
+	OverrideServerConfig     OverrideServerConfig `json:"override_server_config"`
+	OverrideFileSize         []OverrideFileSize   `json:"override_file_size"`
+	UnlockAllSpecialRotation bool                 `json:"unlock_all_special_rotation"`
+}
+
+type OverrideServerConfig struct {
+	Enable  bool               `json:"enable"`
+	Android OverrideFileSource `json:"android"`
+	IOS     OverrideFileSource `json:"ios"`
+}
+
+type OverrideFileSource struct {
+	URL  string `json:"url"`
+	Size int    `json:"size"`
+}
+
+type OverrideFileSize struct {
+	TargetOs string `json:"target_os"`
+	FileName string `json:"file_name"`
 }
 
 func InitConfig() {
@@ -36,8 +55,21 @@ func DefaultConfigs() *AppConfigs {
 	return &AppConfigs{
 		AppName: "honoka-chan",
 		Settings: Settings{
-			ListenPort:               "8080",
-			CdnServer:                "http://127.0.0.1:8080/static",
+			ListenPort:       "8080",
+			CdnServer:        "http://127.0.0.1:8080/static",
+			BackupCdnServer:  "",
+			OverrideFileSize: []OverrideFileSize{},
+			OverrideServerConfig: OverrideServerConfig{
+				Enable: false,
+				Android: OverrideFileSource{
+					URL:  "",
+					Size: 0,
+				},
+				IOS: OverrideFileSource{
+					URL:  "",
+					Size: 0,
+				},
+			},
 			UnlockAllSpecialRotation: false,
 		},
 	}

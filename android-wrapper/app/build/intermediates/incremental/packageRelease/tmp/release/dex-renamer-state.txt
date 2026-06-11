@@ -1,0 +1,7 @@
+#Thu Jun 11 06:44:59 CST 2026
+base.0=C\:\\honoka-chan-termux\\android-wrapper\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+base.1=C\:\\honoka-chan-termux\\android-wrapper\\app\\build\\intermediates\\global_synthetics_dex\\release\\mergeReleaseGlobalSynthetics\\classes.dex
+path.0=classes.dex
+path.1=classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

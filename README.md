@@ -11,6 +11,10 @@ LoveLive! 学园偶像祭、学园偶像季: 群星闪耀 自用私服。
 
 我主要做的就是三件事，很惭愧，只做了一点微小的工作
 
+## 其他所需文件
+
+[MEGA网盘](https://mega.nz/folder/X7JB3bwI#L9eLbOQsCLMkSK0TO3_hfw)
+
 ## 特别感谢
 
  - YumeMichi 的 原始项目 [honoka-chan](https://github.com/YumeMichi/honoka-chan/tree/termux)

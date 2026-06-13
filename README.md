@@ -1,4 +1,4 @@
-# honoka-chan-server
+# honoka-chan-android-server
 
 LoveLive! 学园偶像祭、学园偶像季: 群星闪耀 自用私服。
 

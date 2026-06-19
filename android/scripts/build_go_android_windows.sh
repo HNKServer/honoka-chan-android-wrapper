@@ -12,7 +12,7 @@ NDK_ROOT="${ANDROID_NDK_HOME:-${ANDROID_NDK_ROOT:-}}"
 [[ -n "$NDK_ROOT" ]] || die "ANDROID_NDK_HOME is not set"
 [[ -d "$NDK_ROOT" ]] || die "ANDROID_NDK_HOME does not exist: $NDK_ROOT"
 
-HOST_TAG="${ANDROID_NDK_HOST_TAG:-linux-x86_64}"
+HOST_TAG="${ANDROID_NDK_HOST_TAG:-windows-x86_64}"
 TOOLCHAIN="$NDK_ROOT/toolchains/llvm/prebuilt/$HOST_TAG/bin"
 [[ -d "$TOOLCHAIN" ]] || die "NDK toolchain not found: $TOOLCHAIN"
 
@@ -21,7 +21,7 @@ case "$ABI" in
     export GOOS=android
     export GOARCH=arm64
     export CGO_ENABLED=1
-    export CC="$TOOLCHAIN/aarch64-windows-android${MIN_SDK}-clang"
+    export CC="$TOOLCHAIN/aarch64-linux-android${MIN_SDK}-clang"
     OUTPUT_DIR="$ANDROID_DIR/app/src/main/jniLibs/arm64-v8a"
     ;;
   armeabi-v7a)

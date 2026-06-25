@@ -17,7 +17,8 @@ if (!(Test-Path "config.json")) {
   "settings": {
     "server_port": "8080",
     "sif_cdn_server": "http://127.0.0.1:8080/static",
-    "as_cdn_server": "http://127.0.0.1:8080/static"
+    "as_cdn_server": "http://127.0.0.1:8080/static",
+    "unlock_all_special_rotation": false
   },
   "user_prefs": {
     "name": "梦路 @bilibili",

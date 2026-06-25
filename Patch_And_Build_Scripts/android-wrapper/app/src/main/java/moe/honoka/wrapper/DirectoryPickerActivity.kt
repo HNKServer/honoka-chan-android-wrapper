@@ -12,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.color.DynamicColors
 import java.io.File
 import java.util.Locale
 
@@ -21,7 +20,6 @@ class DirectoryPickerActivity : Activity() {
     private lateinit var root: android.widget.LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         currentDir = File(intent.getStringExtra("start") ?: PathUtils.STORAGE_ROOT)
         if (!currentDir.exists() || !currentDir.isDirectory) currentDir = File(PathUtils.STORAGE_ROOT)
@@ -30,8 +28,7 @@ class DirectoryPickerActivity : Activity() {
 
     private fun render() {
         root = Ui.verticalRoot(this)
-        root.addView(Ui.title(this, "选择 archives 目录"))
-        root.addView(Ui.subtitle(this, "这是给 Go 子进程用的真实文件路径选择器，不使用 content://。"))
+        root.addView(Ui.header(this, "选择 archives 目录", "这是给 Go 子进程用的真实文件路径选择器，不使用 content://。"))
 
         val infoCard = Ui.card(this)
         val info = Ui.cardContent(this)
@@ -109,10 +106,7 @@ class DirectoryPickerActivity : Activity() {
         listCard.addView(list)
         root.addView(listCard)
 
-        val scroll = ScrollView(this).apply {
-            addView(root, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        }
-        setContentView(scroll)
+        setContentView(Ui.safeScroll(this, root))
     }
 
     private fun likelyImportant(name: String): Boolean {

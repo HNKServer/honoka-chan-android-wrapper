@@ -17,7 +17,7 @@ func main() {
     router.AsRouter(r)
 
     // Android wrapper internal API. This only adds /__android/* endpoints and
-    // does not change the original client-facing API or config.json structure.
+    // does not change the original client-facing API. Optional Android helper fields are backward compatible.
     router.AndroidRouter(r)
 
     r.Run(":" + config.Conf.Settings.ServerPort)

@@ -1,5 +1,10 @@
 R_DEF: Internal format may change without notice
 local
+color honoka_on_orange_container
+color honoka_orange
+color honoka_orange_container
+color honoka_surface
+color honoka_surface_dark
 color ic_launcher_background
 mipmap ic_launcher
 mipmap ic_launcher_foreground

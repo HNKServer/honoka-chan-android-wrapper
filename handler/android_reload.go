@@ -6,6 +6,6 @@ import "honoka-chan/config"
 // during init(). Keep this in sync with existing global variables only; do not
 // change the config.json schema.
 func ReloadConfigGlobals() {
-    SifCdnServer = config.Conf.Settings.SifCdnServer
-    AsCdnServer = config.Conf.Settings.AsCdnServer
+	SifCdnServer = config.Conf.Settings.SifCdnServer
+	AsCdnServer = config.Conf.Settings.AsCdnServer
 }

@@ -47,6 +47,7 @@
   <androidx.contentpager/>
   <androidx.coordinatorlayout/>
   <androidx.core/>
+  <androidx.core.locationbutton/>
   <androidx.core.uwb/>
   <androidx.credentials/>
   <androidx.credentials.providerevents/>

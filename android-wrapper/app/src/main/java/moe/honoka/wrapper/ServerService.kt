@@ -219,7 +219,7 @@ class ServerService : Service() {
         if (!exe.exists()) {
             throw IllegalStateException(
                 "Go binary not found: ${exe.absolutePath}. " +
-                        "请先执行 scripts/build_go_android.ps1 生成 app/src/main/jniLibs/arm64-v8a/libhonoka.so"
+                    "请先执行 scripts/build_go_android.ps1 生成 app/src/main/jniLibs/arm64-v8a/libhonoka.so"
             )
         }
 
@@ -311,9 +311,9 @@ class ServerService : Service() {
         if (missing.isNotEmpty()) {
             throw IllegalStateException(
                 "基础资源缺失：\n" +
-                        missing.joinToString("\n") { it.absolutePath } +
-                        "\n\n请确认 APK assets/server-base.zip 内包含这些文件；" +
-                        "如果确认存在，请清空 APP 数据后重新启动。"
+                    missing.joinToString("\n") { it.absolutePath } +
+                    "\n\n请确认 APK assets/server-base.zip 内包含这些文件；" +
+                    "如果确认存在，请清空 APP 数据后重新启动。"
             )
         }
     }
@@ -349,6 +349,7 @@ class ServerService : Service() {
         return prefs.getString("go_last_log", "") ?: ""
     }
 
+    /** API 23 compatible replacement for Process.isAlive, which requires Android API 26. */
     private fun isProcessAlive(p: Process?): Boolean {
         if (p == null) {
             return false
@@ -388,8 +389,8 @@ class ServerService : Service() {
                         val entry = zis.nextEntry ?: break
 
                         /*
-                         * Windows/PowerShell 生成的 zip entry 可能是 assets\main.db。
-                         * Android/Linux 不会把 "\" 当路径分隔符，所以必须转成 "/"。
+                         * Windows/PowerShell generated zip entries may be assets\main.db.
+                         * Android/Linux treats backslash as a normal filename character, not a path separator.
                          */
                         val normalizedName = entry.name
                             .replace('\\', '/')
@@ -465,7 +466,7 @@ class ServerService : Service() {
         if (link.exists()) {
             throw IllegalStateException(
                 "Cannot replace non-empty archives directory: ${link.absolutePath}. " +
-                        "如果这里不是空目录，请手动清空 APP 数据后重试。"
+                    "如果这里不是空目录，请手动清空 APP 数据后重试。"
             )
         }
 

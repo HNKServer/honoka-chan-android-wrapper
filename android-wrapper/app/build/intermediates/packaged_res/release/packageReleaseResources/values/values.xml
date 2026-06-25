@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="honoka_on_orange_container">#5E3300</color>
+    <color name="honoka_orange">#f38500</color>
+    <color name="honoka_orange_container">#FFE2C2</color>
+    <color name="honoka_surface">#FFFBFF</color>
+    <color name="honoka_surface_dark">#141218</color>
     <color name="ic_launcher_background">#F4F4F4</color>
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>

@@ -1,0 +1,78 @@
+package config
+
+import (
+	"encoding/json"
+	"honoka-chan/utils"
+	"os"
+	"strconv"
+	"time"
+)
+
+type AppConfigs struct {
+	AppName   string    `json:"app_name"`
+	Settings  Settings  `json:"settings"`
+	UserPrefs UserPrefs `json:"user_prefs"`
+}
+
+type Settings struct {
+	ServerPort               string `json:"server_port"`
+	SifCdnServer             string `json:"sif_cdn_server"`
+	AsCdnServer              string `json:"as_cdn_server"`
+	UnlockAllSpecialRotation bool   `json:"unlock_all_special_rotation,omitempty"`
+}
+
+type UserPrefs struct {
+	Name           string `json:"name"`            // 鐢ㄦ埛鍚?	Level          int    `json:"level"`           // 鐢ㄦ埛绛夌骇
+	ExpNumerator   int    `json:"exp_numerator"`   // Exp 鍒嗗瓙
+	ExpDenominator int    `json:"exp_denominator"` // Exp 鍒嗘瘝
+	GameCoin       int    `json:"game_coin"`       // 娓告垙閲戝竵
+	SnsCoin        int    `json:"sns_coin"`        // 娓告垙鐖卞績
+	EnergyMax      int    `json:"energy_max"`      // 浣撳姏涓婇檺
+	OverMaxEnergy  int    `json:"over_max_energy"` // 瀹為檯浣撳姏锛屼负 0 鏃朵笌 EnergyMax 涓€鑷?	InviteCode     string `json:"invite_code"`     // 鐢ㄦ埛 ID
+}
+
+func DefaultConfigs() *AppConfigs {
+	return &AppConfigs{
+		AppName: "honoka-chan",
+		Settings: Settings{
+			ServerPort:   "8080",
+			SifCdnServer: "http://127.0.0.1:8080/static",
+			AsCdnServer:  "http://127.0.0.1:8080/static",
+		},
+		UserPrefs: UserPrefs{
+			Name:           "姊﹁矾 @bilibili",
+			Level:          1028,
+			ExpNumerator:   1089696,
+			ExpDenominator: 1207185,
+			GameCoin:       112124104,
+			SnsCoin:        0,
+			EnergyMax:      417,
+			OverMaxEnergy:  0,
+			InviteCode:     "377385143",
+		},
+	}
+}
+
+func Load(p string) *AppConfigs {
+	if !utils.PathExists(p) {
+		_ = DefaultConfigs().Save(p)
+	}
+	c := AppConfigs{}
+	err := json.Unmarshal([]byte(utils.ReadAllText(p)), &c)
+	if err != nil {
+		_ = os.Rename(p, p+".backup"+strconv.FormatInt(time.Now().Unix(), 10))
+		_ = DefaultConfigs().Save(p)
+	}
+	c = AppConfigs{}
+	_ = json.Unmarshal([]byte(utils.ReadAllText(p)), &c)
+	return &c
+}
+
+func (c *AppConfigs) Save(p string) error {
+	data, err := json.Marshal(c)
+	if err != nil {
+		return err
+	}
+	utils.WriteAllText(p, string(data))
+	return nil
+}

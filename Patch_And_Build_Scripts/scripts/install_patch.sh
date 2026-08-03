@@ -34,6 +34,7 @@ replace_file "$PATCH_DIR/replacement_files/internal/startup/legacy_ownership.go"
 replace_file "$PATCH_DIR/replacement_files/internal/startup/legacy_reconcile.go" "$PROJECT_DIR/internal/startup/legacy_reconcile.go"
 replace_file "$PATCH_DIR/replacement_files/internal/middleware/common.go" "$PROJECT_DIR/internal/middleware/common.go"
 replace_file "$PATCH_DIR/replacement_files/internal/handler/api/api.go" "$PROJECT_DIR/internal/handler/api/api.go"
+replace_file "$PATCH_DIR/replacement_files/internal/handler/webui/login.go" "$PROJECT_DIR/internal/handler/webui/login.go"
 
 rm -f "$PROJECT_DIR/config/android_reload.go" "$PROJECT_DIR/internal/router/android.go"
 
@@ -64,7 +65,8 @@ gofmt -w \
   "$PROJECT_DIR/internal/startup/legacy_ownership.go" \
   "$PROJECT_DIR/internal/startup/legacy_reconcile.go" \
   "$PROJECT_DIR/internal/middleware/common.go" \
-  "$PROJECT_DIR/internal/handler/api/api.go"
+  "$PROJECT_DIR/internal/handler/api/api.go" \
+  "$PROJECT_DIR/internal/handler/webui/login.go"
 
-echo "v28 source-reconciled mainline compatibility patch installed."
+echo "v30 WebUI-only compatibility patch installed."
 echo "No source backups were created."

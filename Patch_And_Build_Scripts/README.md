@@ -1,43 +1,36 @@
-# v28 mainline API signature fix
+# v30 — WebUI login compatibility
 
-This release fixes the v27 `internal/handler/api/api.go` calls so they exactly match the uploaded mainline dev core signatures (`BannerApi(action)`, `LiveSeApi(action)`, `SubscenarioApi(ctx, action)`, etc.). Android GUI and the v27 migration/reconciliation logic are unchanged.
+This patch is based on v28. It keeps the existing v28 migration and Android-wrapper changes and adds only the WebUI login compatibility fix.
 
-# Honoka Android Wrapper v28 — source-reconciled mainline migration
+## WebUI fix
 
-This patch keeps the Android GUI unchanged and updates only the Go compatibility layer for an in-place upgrade from the working Termux core to the current mainline core.
+- Restores login for Termux-era accounts stored as `" area-account"`.
+- Accepts a bare legacy account when it uniquely matches one password-valid row.
+- Accepts the complete `area-account` form when multiple legacy accounts need disambiguation.
+- Checks session-save errors instead of reporting a false login success.
 
-## Why this patch exists
-
-The JNI branch does not implement a different SIF protocol. Its JNI layer only starts and stops the same Gin router in-process. The important difference is that a fresh JNI installation creates a self-consistent mainline User DB, while an upgraded Termux installation keeps ownership IDs and table rows created by the old core.
-
-The working Termux core returned cards from `common_unit_m` plus `user_unit_m`. Its shared `unit_owning_user_id` values started at 38383 in the natural row order of `common_unit_m`. The current mainline creates `user_unit_data` from `unit_m ORDER BY unit_id`. Consequently, an old numeric ownership ID can point to a different card after upgrade. Old decks, centre member, accessory wear and removable-skill equipment continue referencing the old IDs. The client then receives internally inconsistent `unitAll` / `deckInfo` / linked data in the `/main.php/api` batch and may abort in native `libGame.so` even though the HTTP response is 200.
-
-## v28 changes
-
-The patch directly replaces complete Go files; it does not use regex source edits and creates no source backup files.
-
-It preserves all current mainline modules and features, including achievements and the native `unlock_all_special_rotation` setting, while adding an idempotent legacy reconciliation layer:
-
-- keeps the exact old `common_unit_m` ownership order for translation only;
-- ensures every current `common_unit_data` card has a corresponding `user_unit_data` row;
-- imports duplicate/custom rows from old `user_unit_m` into `user_unit_data`;
-- translates old ownership IDs used by `user_preference_m`, `deck_unit_m`, `skill_equip_m` and `accessory_wear_m`;
-- repairs centre-member references;
-- repairs or rebuilds malformed decks so all nine positions reference cards present in `unitAll`;
-- retains the current mainline card database and all newly implemented handlers;
-- restores the Android/Termux item-level status-600 fallback only for unimplemented items in `/main.php/api`, instead of aborting the entire batch;
-- keeps the Android GUI exactly as in the current wrapper.
+No source backup files are created.
 
 ## Install
 
+PowerShell:
+
 ```powershell
-cd <extracted-v28-directory>
 .\scripts\install_patch.ps1 -ProjectDir "C:\honoka-chan-dev"
 .\scripts\build_go_android.ps1 -ProjectDir "C:\honoka-chan-dev"
 ```
 
-Then open `C:\honoka-chan-dev\android-wrapper` in Android Studio and run Clean/Rebuild.
+Linux/macOS:
 
-Install over the existing app with the same signing key. Do not uninstall the app and do not clear app data, because the reconciliation needs the existing User DB and old Termux tables.
+```bash
+./scripts/install_patch.sh /path/to/honoka-chan-dev
+./scripts/build_go_android.sh /path/to/honoka-chan-dev
+```
 
-The install script creates no `.before_*` backups and cleans backup artifacts left by older patch generations.
+No `server-base.zip` rebuild is needed for this Go-only change.
+
+## WebUI login
+
+- New/mainline account: enter the account normally.
+- Old Termux account: enter the bare account; when ambiguous, enter `86-account`, `852-account`, etc.
+- Mainline default account remains `1` / `klsbgames`.

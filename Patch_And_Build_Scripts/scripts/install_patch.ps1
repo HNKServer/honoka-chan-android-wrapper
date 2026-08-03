@@ -18,7 +18,8 @@ $files = @(
     @{ Source = Join-Path $replacementRoot "internal\startup\legacy_ownership.go"; Target = Join-Path $ProjectDir "internal\startup\legacy_ownership.go" },
     @{ Source = Join-Path $replacementRoot "internal\startup\legacy_reconcile.go"; Target = Join-Path $ProjectDir "internal\startup\legacy_reconcile.go" },
     @{ Source = Join-Path $replacementRoot "internal\middleware\common.go"; Target = Join-Path $ProjectDir "internal\middleware\common.go" },
-    @{ Source = Join-Path $replacementRoot "internal\handler\api\api.go"; Target = Join-Path $ProjectDir "internal\handler\api\api.go" }
+    @{ Source = Join-Path $replacementRoot "internal\handler\api\api.go"; Target = Join-Path $ProjectDir "internal\handler\api\api.go" },
+    @{ Source = Join-Path $replacementRoot "internal\handler\webui\login.go"; Target = Join-Path $ProjectDir "internal\handler\webui\login.go" }
 )
 
 foreach ($item in $files) {
@@ -96,11 +97,12 @@ Write-Host "Merged unchanged Android GUI."
     (Join-Path $ProjectDir "internal\startup\legacy_ownership.go") `
     (Join-Path $ProjectDir "internal\startup\legacy_reconcile.go") `
     (Join-Path $ProjectDir "internal\middleware\common.go") `
-    (Join-Path $ProjectDir "internal\handler\api\api.go")
+    (Join-Path $ProjectDir "internal\handler\api\api.go") `
+    (Join-Path $ProjectDir "internal\handler\webui\login.go")
 if ($LASTEXITCODE -ne 0) {
     throw "gofmt failed with exit code $LASTEXITCODE"
 }
 
-Write-Host "v28 source-reconciled mainline compatibility patch installed."
+Write-Host "v30 WebUI-only compatibility patch installed."
 Write-Host "No source backups were created."
 Write-Host "Next run scripts\build_go_android.ps1, then rebuild the APK."

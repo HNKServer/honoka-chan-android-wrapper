@@ -1,0 +1,19 @@
+<resources>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="colorPrimary">@color/honoka_orange</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorPrimaryContainer">@color/honoka_orange_container</item>
+        <item name="colorOnPrimaryContainer">@color/honoka_on_orange_container</item>
+        <item name="colorSecondary">@color/honoka_orange</item>
+        <item name="colorSecondaryContainer">@color/honoka_orange_container</item>
+        <item name="colorOnSecondaryContainer">@color/honoka_on_orange_container</item>
+        <item name="android:colorAccent">@color/honoka_orange</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

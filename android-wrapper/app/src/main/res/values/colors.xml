@@ -1,0 +1,7 @@
+<resources>
+    <color name="honoka_orange">#f38500</color>
+    <color name="honoka_orange_container">#FFE2C2</color>
+    <color name="honoka_on_orange_container">#5E3300</color>
+    <color name="honoka_surface">#FFFBFF</color>
+    <color name="honoka_surface_dark">#141218</color>
+</resources>

@@ -1,0 +1,12 @@
+.gradle/
+.idea/
+.kotlin/
+app/.cxx/
+app/release/
+app/src/main/assets/
+app/src/main/jniLibs/
+build/
+gradle/
+gradlew
+gradlew.bat
+local.properties

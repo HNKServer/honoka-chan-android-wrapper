@@ -1,0 +1,44 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+}
+
+android {
+    namespace "moe.honoka.wrapper"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "moe.honoka.wrapper"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // Keep Java and Kotlin bytecode targets aligned.
+    // Without this, Gradle/Kotlin may pick the current JDK, such as 21,
+    // while Android Java compilation remains at 1.8, causing:
+    // Inconsistent JVM-target compatibility detected.
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    // We execute the Go binary through ProcessBuilder. It is named libhonoka.so
+    // only so Android installs/extracts it as a native library file.
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+}
+
+dependencies {
+    // Material Components provides Material 3 widgets, MaterialButton/Card/TextInputLayout,
+    // and DynamicColors for Android 12+ Material You wallpaper colors.
+    implementation "com.google.android.material:material:1.12.0"
+}
